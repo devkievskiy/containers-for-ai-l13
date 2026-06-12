@@ -1,0 +1,22 @@
+$ curl -s -X POST localhost:8000/ask -d {"question":"What is RAG?"}
+
+{
+    "answer": "RAG stands for Retrieval-Augmented Generation, which is a pattern where a language model is grounded on external documents fetched at query time, instead of relying only on its parametric knowledge.",
+    "sources": [
+        {
+            "score": 0.6528055667877197,
+            "question": "What is RAG?",
+            "answer": "Retrieval-Augmented Generation is a pattern where a language model is grounded on external documents fetched at query time, instead of relying only on its parametric knowledge."
+        },
+        {
+            "score": 0.5486474633216858,
+            "question": "What is chunking in RAG?",
+            "answer": "Chunking is splitting long documents into smaller pieces before embedding, so retrieval returns relevant fragments instead of entire documents. Typical chunk sizes are 200 to 1000 tokens."
+        },
+        {
+            "score": 0.3114708662033081,
+            "question": "What is hallucination?",
+            "answer": "Hallucination is when a language model produces fluent but factually incorrect output. RAG and evals reduce hallucination by grounding answers on retrieved context."
+        }
+    ]
+}

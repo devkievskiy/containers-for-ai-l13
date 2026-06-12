@@ -1,0 +1,64 @@
+# Full local stack: the RAG service plus the AI-infra it would use in prod —
+# Qdrant (vector DB), Redis (cache), and Langfuse (observability, backed by
+# its own Postgres). `docker compose up` brings the whole thing up on one network.
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rag-faq:optimized
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env            # supplies OPENAI_API_KEY (gitignored)
+    environment:
+      QDRANT_URL: http://qdrant:6333
+      REDIS_URL: redis://redis:6379
+      LANGFUSE_HOST: http://langfuse:3000
+    depends_on:
+      - qdrant
+      - redis
+      - langfuse
+    restart: unless-stopped
+
+  qdrant:
+    image: qdrant/qdrant:v1.12.4
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  langfuse:
+    image: langfuse/langfuse:2
+    depends_on:
+      - langfuse-db
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@langfuse-db:5432/langfuse
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: dev-only-secret-change-me
+      SALT: dev-only-salt-change-me
+      TELEMETRY_ENABLED: "false"
+    restart: unless-stopped
+
+  langfuse-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: langfuse
+    volumes:
+      - langfuse_db:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  qdrant_data:
+  langfuse_db:

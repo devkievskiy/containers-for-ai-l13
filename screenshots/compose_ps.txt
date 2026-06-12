@@ -1,0 +1,6 @@
+SERVICE       IMAGE                   STATUS                    PORTS
+app           rag-faq:optimized       Up 46 seconds (healthy)   0.0.0.0:8000->8000/tcp
+langfuse      langfuse/langfuse:2     Up 2 minutes              0.0.0.0:3000->3000/tcp
+langfuse-db   postgres:16-alpine      Up 7 minutes              5432/tcp
+qdrant        qdrant/qdrant:v1.12.4   Up 46 seconds             0.0.0.0:6333->6333/tcp, 6334/tcp
+redis         redis:7-alpine          Up 7 minutes              0.0.0.0:6379->6379/tcp

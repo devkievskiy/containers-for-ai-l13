@@ -1,0 +1,19 @@
+# Secrets — passed at runtime via env, never baked into the image
+.env
+
+# Python / local tooling
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Not needed at runtime
+tests/
+*.md
+Makefile
+STUDENT_TODO.md
+
+# VCS / OS
+.git/
+.gitignore
+.DS_Store

@@ -1,0 +1,3 @@
+REPOSITORY                                                           TAG         IMAGE ID       CREATED         SIZE
+rag-faq                                                              optimized   164d6786aba5   4 minutes ago   351MB
+rag-faq                                                              naive       115c704d51f6   5 minutes ago   1.81GB
